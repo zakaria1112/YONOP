@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Details</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="../css/pages/product-details.css" />
+  <style>
+    /* منع تحديد النص في جميع أنحاء الموقع */
+    * {
+      -webkit-user-select: none;  /* Chrome/Safari/Opera */
+      -moz-user-select: none;     /* Firefox */
+      -ms-user-select: none;      /* Internet Explorer/Edge */
+      user-select: none;          /* Non-prefixed version */
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* السماح بتحديد النص في حقول الإدخال */
+    input, textarea {
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+    }
+
+    :root {
+      --blue: #9FC5EF;
+      --bodyFont: #2b3445;
+      --bg: #f6f6f6;
+    }
+
+    a, button {
+      all: unset;
+      display: inline-block;
+      transition: 0.2s;
+    }
+
+    button:active, a:active {
+      scale: 0.9;
+    }
+
+    button:hover, a:hover {
+      cursor: pointer;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .product-name {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 10px 0;
+      color: var(--bodyFont);
+    }
+
+    .product-description {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .product-price {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--bodyFont);
+      margin-bottom: 15px;
+    }
+
+    .add-to-cart {
+      background: var(--blue);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      text-align: center;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    .add-to-cart:hover {
+      background: #8ab4e0;
+    }
+
+    .add-to-cart:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+  <div class="products-container">
+    <!-- Product 1 -->
+    <div class="product-card">
+      <img src="../assets/product1.jpg" alt="Product 1" class="product-image">
+      <h3 class="product-name">Product 1</h3>
+      <p class="product-description">Description for product 1</p>
+      <p class="product-price">100.00 MAD</p>
+      <button class="add-to-cart">BUY</button>
+    </div>
+
+    <!-- Product 2 -->
+    <div class="product-card">
+      <img src="../assets/product2.jpg" alt="Product 2" class="product-image">
+      <h3 class="product-name">Product 2</h3>
+      <p class="product-description">Description for product 2</p>
+      <p class="product-price">150.00 MAD</p>
+      <button class="add-to-cart">BUY</button>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="product-card">
+      <img src="../assets/product3.jpg" alt="Product 3" class="product-image">
+      <h3 class="product-name">Product 3</h3>
+      <p class="product-description">Description for product 3</p>
+      <p class="product-price">200.00 MAD</p>
+      <button class="add-to-cart">BUY</button>
+    </div>
+
+    <!-- Product 4 -->
+    <div class="product-card">
+      <img src="../assets/product4.jpg" alt="Product 4" class="product-image">
+      <h3 class="product-name">Product 4</h3>
+      <p class="product-description">Description for product 4</p>
+      <p class="product-price">250.00 MAD</p>
+      <button class="add-to-cart">BUY</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const addToCartButtons = document.querySelectorAll('.add-to-cart');
+      
+      addToCartButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const productCard = this.closest('.product-card');
+          const productName = productCard.querySelector('.product-name').textContent;
+          const productDescription = productCard.querySelector('.product-description').textContent;
+          const productPrice = productCard.querySelector('.product-price').textContent;
+          const productImage = productCard.querySelector('.product-image').src;
+          
+          // Get existing cart items
+          let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+          
+          // Check if product already exists in cart
+          const existingProductIndex = cartItems.findIndex(item => item.name === productName);
+          
+          if (existingProductIndex !== -1) {
+            // If product exists, increase quantity
+            cartItems[existingProductIndex].quantity += 1;
+          } else {
+            // If product doesn't exist, add new product
+            cartItems.push({
+              name: productName,
+              description: productDescription,
+              price: productPrice,
+              image: productImage,
+              quantity: 1
+            });
+          }
+          
+          // Save updated cart items
+          localStorage.setItem('cartItems', JSON.stringify(cartItems));
+          
+          // Update cart count
+          const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+          localStorage.setItem('headerCartCount', totalCount);
+          
+          // Update cart display
+          const cartCount = document.getElementById('cartCount');
+          if (cartCount) {
+            cartCount.textContent = totalCount;
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html> 

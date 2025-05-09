@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Details - YONOP</title>
+
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    input, textarea {
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+    }
+
+    html {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    html::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    body::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
+    }
+
+    .volcano-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at bottom, #6b0f1a, #3c005a, #000000);
+      background-size: 400% 400%;
+      animation: volcanoFlow 15s ease infinite;
+      z-index: 1;
+    }
+
+    @keyframes volcanoFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .yonop-title-wrapper {
+      position: fixed;
+      top: 10%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .yonop-title-wrapper.visible {
+      opacity: 1;
+    }
+
+    .yonop-title-wrapper.fade-out {
+      opacity: 0;
+      transform: translate(-50%, -60%);
+    }
+
+    .lava-text {
+      background: linear-gradient(270deg, #ff69b4, #d8b4fe, #ffffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 3.5rem;
+      font-weight: bold;
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem;
+    }
+
+    .flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .model-viewer-container {
+      width: 45%;
+      height: 500px;
+      opacity: 0;
+      transform: scale(0.9);
+      position: relative;
+    }
+
+    .model-viewer-container::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      height: 30px;
+      background: radial-gradient(ellipse at center, 
+        rgba(255, 105, 180, 0.4) 0%,
+        rgba(255, 20, 147, 0.2) 50%,
+        transparent 100%);
+      filter: blur(15px);
+      pointer-events: none;
+    }
+
+    .model-viewer-container.visible {
+      opacity: 1;
+      transform: scale(1);
+      transition: all 0.8s ease;
+    }
+
+    model-viewer {
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
+      --poster-color: transparent;
+      filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.4))
+             drop-shadow(0 0 40px rgba(255, 20, 147, 0.3))
+             drop-shadow(0 0 60px rgba(255, 0, 0, 0.2));
+      transition: filter 0.5s ease;
+    }
+
+    model-viewer:hover {
+      filter: drop-shadow(0 0 25px rgba(255, 105, 180, 0.5))
+             drop-shadow(0 0 50px rgba(255, 20, 147, 0.4))
+             drop-shadow(0 0 75px rgba(255, 0, 0, 0.3));
+    }
+
+    .welcome-text {
+      width: 45%;
+      text-align: right;
+      opacity: 0;
+      padding-right: 2rem;
+    }
+
+    .welcome-text.visible {
+      opacity: 1;
+      transition: opacity 0.8s ease;
+    }
+
+    .animated-text {
+      position: relative;
+      transform-origin: center;
+      animation: textFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes textFloat {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-5px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    .welcome-text p {
+      font-size: 2.2rem;
+      line-height: 1.5;
+      font-weight: 600;
+      background: linear-gradient(270deg, #ff0000, #ff69b4, #ffffff, #ff1493, #ff0000);
+      background-size: 300% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: lavaFlow 4s ease infinite, textGlow 2s ease-in-out infinite;
+      text-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+    }
+
+    .welcome-text .highlight {
+      font-size: 2.8rem;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 0.8rem;
+      background: linear-gradient(270deg, #ffffff, #ff1493, #ff0000, #ff69b4, #ffffff);
+      background-size: 300% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: lavaFlow 4s ease infinite, textGlow 2s ease-in-out infinite;
+      animation-delay: -1.5s;
+    }
+
+    @keyframes textGlow {
+      0% {
+        text-shadow: 
+          0 0 5px rgba(255, 255, 255, 0.5),
+          0 0 10px rgba(255, 105, 180, 0.5),
+          0 0 15px rgba(255, 20, 147, 0.5);
+      }
+      50% {
+        text-shadow: 
+          0 0 10px rgba(255, 255, 255, 0.7),
+          0 0 20px rgba(255, 105, 180, 0.7),
+          0 0 30px rgba(255, 20, 147, 0.7);
+      }
+      100% {
+        text-shadow: 
+          0 0 5px rgba(255, 255, 255, 0.5),
+          0 0 10px rgba(255, 105, 180, 0.5),
+          0 0 15px rgba(255, 20, 147, 0.5);
+      }
+    }
+
+    .fullscreen-mode .welcome-text p {
+      transform: scale(1.2) translateY(20px);
+      transition: all 0.5s ease;
+    }
+
+    .fullscreen-mode .model-viewer-container {
+      transform: scale(1.1) translateY(20px);
+      transition: all 0.5s ease;
+    }
+
+    .fullscreen-mode .welcome-text {
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+    }
+
+    .home-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      padding: 12px 24px;
+      color: white;
+      text-decoration: none;
+      opacity: 0;
+    }
+
+    .home-button.visible {
+      opacity: 1;
+      transition: all 0.5s ease;
+    }
+
+    .home-button.fade-out {
+      opacity: 0;
+    }
+
+    .second-page {
+      min-height: 100vh;
+      position: relative;
+      z-index: 5;
+      opacity: 0;
+      background: black;
+      padding-top: 3rem;
+      overflow: hidden;
+    }
+
+    .second-page.visible {
+      opacity: 1;
+      transition: opacity 0.6s ease;
+    }
+
+    .dark-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 3;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .product-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 280px));
+      gap: 2rem;
+      justify-content: center;
+      padding: 4rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .product-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      width: 280px;
+      height: 420px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      cursor: pointer;
+      text-decoration: none;
+      color: white;
+    }
+
+    .product-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 15px;
+      background: linear-gradient(45deg, 
+        rgba(255, 105, 180, 0),
+        rgba(255, 20, 147, 0),
+        rgba(255, 0, 0, 0));
+      transition: all 0.3s ease;
+      z-index: -1;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      border-color: rgba(255, 255, 255, 0.4);
+      box-shadow: 
+        0 0 10px rgba(255, 105, 180, 0.3),
+        0 0 20px rgba(255, 20, 147, 0.2),
+        0 0 30px rgba(255, 0, 0, 0.1);
+    }
+
+    .product-card:hover::before {
+      background: linear-gradient(45deg, 
+        rgba(255, 105, 180, 0.15),
+        rgba(255, 20, 147, 0.15),
+        rgba(255, 0, 0, 0.15));
+    }
+
+    .product-image {
+      width: 100%;
+      height: 200px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .product-image::after {
+      content: 'View Details';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 8px;
+      text-align: center;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover .product-image::after {
+      transform: translateY(0);
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+      pointer-events: none;
+      -webkit-user-drag: none;
+      -khtml-user-drag: none;
+      -moz-user-drag: none;
+      -o-user-drag: none;
+      user-drag: none;
+    }
+
+    .product-card:hover .product-image img {
+      transform: scale(1.05);
+    }
+
+    .product-info {
+      text-align: center;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-name {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: white;
+      transition: color 0.3s ease;
+    }
+
+    .product-description {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+
+    .product-price {
+      font-size: 1.4rem;
+      color: #ff69b4;
+      margin-bottom: 1rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .product-price::before {
+      content: '💰';
+      font-size: 1.2rem;
+    }
+
+    .add-to-cart {
+      width: 100%;
+      padding: 0.8rem;
+      background: linear-gradient(45deg, #ff69b4, #da70d6);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .add-to-cart:hover {
+      background: linear-gradient(45deg, #ff69b4, #ff8dc7);
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .add-to-cart:active {
+      transform: scale(0.95);
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      transition: all 0.5s ease;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .scroll-indicator.visible {
+      opacity: 1;
+    }
+
+    .scroll-indicator .arrow {
+      width: 30px;
+      height: 30px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-left: 0;
+      border-top: 0;
+      transform: rotate(45deg);
+      animation: bounce 2s infinite;
+    }
+
+    .scroll-indicator .text {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      background: linear-gradient(45deg, #ff69b4, #da70d6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0) rotate(45deg);
+      }
+      40% {
+        transform: translateY(-10px) rotate(45deg);
+      }
+      60% {
+        transform: translateY(-5px) rotate(45deg);
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        opacity: 0.5;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0.5;
+      }
+    }
+
+    .splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      transition: opacity 0.5s ease;
+    }
+
+    .splash-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+      display: none;
+    }
+
+    .splash-logo {
+      font-size: 4rem;
+      font-weight: bold;
+      color: white;
+      text-shadow: 
+        0 0 7px rgba(255, 255, 255, 0.6),
+        0 0 14px rgba(255, 105, 180, 0.6),
+        0 0 21px rgba(255, 20, 147, 0.6),
+        0 0 28px rgba(255, 0, 0, 0.6);
+      animation: 
+        glowPulse 2.5s ease-in-out infinite,
+        scaleEffect 3s ease-in-out infinite;
+      transform-origin: center center;
+    }
+
+    @keyframes glowPulse {
+      0% {
+        text-shadow: 
+          0 0 7px rgba(255, 255, 255, 0.6),
+          0 0 14px rgba(255, 105, 180, 0.6),
+          0 0 21px rgba(255, 20, 147, 0.6),
+          0 0 28px rgba(255, 0, 0, 0.6);
+      }
+      50% {
+        text-shadow: 
+          0 0 14px rgba(255, 255, 255, 0.7),
+          0 0 21px rgba(255, 105, 180, 0.7),
+          0 0 28px rgba(255, 20, 147, 0.7),
+          0 0 35px rgba(255, 0, 0, 0.7);
+      }
+      100% {
+        text-shadow: 
+          0 0 7px rgba(255, 255, 255, 0.6),
+          0 0 14px rgba(255, 105, 180, 0.6),
+          0 0 21px rgba(255, 20, 147, 0.6),
+          0 0 28px rgba(255, 0, 0, 0.6);
+      }
+    }
+
+    @keyframes scaleEffect {
+      0% {
+        transform: scale(1);
+      }
+      25% {
+        transform: scale(1.1);
+      }
+      50% {
+        transform: scale(1);
+      }
+      75% {
+        transform: scale(0.9);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="splash-screen">
+    <h1 class="splash-logo">YONOP</h1>
+  </div>
+
+  <a href="https://yonop.ct.ws/home" class="home-button">Home</a>
+
+  <div class="yonop-title-wrapper">
+    <h1 class="lava-text">YONOP</h1>
+  </div>
+
+  <div class="volcano-bg"></div>
+  <div class="dark-overlay" id="overlay"></div>
+
+  <section class="content" id="mainContent">
+    <div class="flex">
+      <div class="model-viewer-container">
+        <model-viewer 
+          src="../assets/your-model.glb"
+          alt="3D Cap Model"
+          auto-rotate
+          auto-rotate-delay="0"
+          rotation-per-second="30deg"
+          camera-controls 
+          disable-zoom
+          camera-orbit="0deg 75deg 105%"
+          min-camera-orbit="0deg 75deg 105%"
+          max-camera-orbit="360deg 75deg 105%"
+          field-of-view="30deg"
+          id="modelViewer">
+        </model-viewer>
+      </div>
+
+      <div class="welcome-text">
+        <p id="originalText" class="animated-text">
+          <span class="highlight">Welcome to YONOP store.</span>
+          Here you will find the latest<br>
+          fashion clothes.
+        </p>
+        <p id="newText" class="animated-text" style="display: none; opacity: 0;">
+          <span class="highlight">هنا راحتكم هي اولويتنا</span>
+          في متجركم YONOP
+        </p>
+      </div>
+    </div>
+    <div class="scroll-indicator" id="scrollIndicator">
+      <div class="arrow"></div>
+      <div class="text">Scroll Down</div>
+    </div>
+  </section>
+
+  <section class="second-page">
+    <div class="product-container">
+      <a href="https://yonop.ct.ws/home" class="product-card">
+        <div class="product-image">
+          <img src="../images/2.webp" alt="Product 1" draggable="false">
+        </div>
+        <div class="product-info">
+          <div class="product-name">Elegant Watch</div>
+          <div class="product-description">Premium design with modern features. Perfect for any occasion.</div>
+          <div class="product-price">MAD 230.00</div>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </a>
+
+      <a href="https://yonop.ct.ws/home" class="product-card">
+        <div class="product-image">
+          <img src="../images/3.webp" alt="Product 2" draggable="false">
+        </div>
+        <div class="product-info">
+          <div class="product-name">Designer Sunglasses</div>
+          <div class="product-description">Stylish protection with UV filtering. Stay trendy and protected.</div>
+          <div class="product-price">MAD 140.00</div>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </a>
+
+      <a href="https://yonop.ct.ws/home" class="product-card">
+        <div class="product-image">
+          <img src="../images/4.webp" alt="Product 3" draggable="false">
+        </div>
+        <div class="product-info">
+          <div class="product-name">Luxury Handbag</div>
+          <div class="product-description">Premium leather with elegant design. A statement piece for any outfit.</div>
+          <div class="product-price">MAD 200.00</div>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </a>
+
+      <a href="https://yonop.ct.ws/home" class="product-card">
+        <div class="product-image">
+          <img src="../images/5.webp" alt="Product 4" draggable="false">
+        </div>
+        <div class="product-info">
+          <div class="product-name">Fashion Jewelry</div>
+          <div class="product-description">Handcrafted with premium materials. Add elegance to your style.</div>
+          <div class="product-price">MAD 120.00</div>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const splashScreen = document.querySelector('.splash-screen');
+      const homeButton = document.querySelector('.home-button');
+      const titleWrapper = document.querySelector('.yonop-title-wrapper');
+      const welcomeText = document.querySelector('.welcome-text');
+      const modelContainer = document.querySelector('.model-viewer-container');
+      const content = document.getElementById('mainContent');
+      const secondPage = document.querySelector('.second-page');
+      const originalText = document.getElementById('originalText');
+      const newText = document.getElementById('newText');
+      const scrollIndicator = document.getElementById('scrollIndicator');
+
+      // إضافة مستمع للنقر على زر التمرير
+      scrollIndicator.addEventListener('click', function() {
+        window.scrollTo({
+          top: window.innerHeight,
+          behavior: 'smooth'
+        });
+      });
+
+      // التحقق من وضع ملء الشاشة
+      function checkFullscreen() {
+        if (document.fullscreenElement || 
+            document.webkitFullscreenElement || 
+            document.mozFullScreenElement ||
+            document.msFullscreenElement) {
+          content.classList.add('fullscreen-mode');
+        } else {
+          content.classList.remove('fullscreen-mode');
+        }
+      }
+
+      // إضافة مستمعي الأحداث لوضع ملء الشاشة
+      document.addEventListener('fullscreenchange', checkFullscreen);
+      document.addEventListener('webkitfullscreenchange', checkFullscreen);
+      document.addEventListener('mozfullscreenchange', checkFullscreen);
+      document.addEventListener('MSFullscreenChange', checkFullscreen);
+
+      // إضافة مستمع للضغط على F11
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'F11') {
+          e.preventDefault();
+          if (!document.fullscreenElement && 
+              !document.webkitFullscreenElement && 
+              !document.mozFullScreenElement &&
+              !document.msFullscreenElement) {
+            if (document.documentElement.requestFullscreen) {
+              document.documentElement.requestFullscreen();
+            } else if (document.documentElement.webkitRequestFullscreen) {
+              document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) {
+              document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.msRequestFullscreen) {
+              document.documentElement.msRequestFullscreen();
+            }
+          } else {
+            if (document.exitFullscreen) {
+              document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+              document.webkitExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+              document.mozCancelFullScreen();
+            } else if (document.msExitFullscreen) {
+              document.msExitFullscreen();
+            }
+          }
+        }
+      });
+
+      function toggleText() {
+        if (originalText.style.display !== 'none') {
+          originalText.style.transform = 'scale(0.95)';
+          originalText.style.opacity = '0';
+          originalText.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+          
+          setTimeout(() => {
+            originalText.style.display = 'none';
+            newText.style.display = 'block';
+            newText.style.transform = 'scale(1.05)';
+            newText.style.opacity = '0';
+            newText.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            
+            setTimeout(() => {
+              newText.style.transform = 'scale(1)';
+              newText.style.opacity = '1';
+            }, 50);
+          }, 800);
+        } else {
+          newText.style.transform = 'scale(0.95)';
+          newText.style.opacity = '0';
+          newText.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+          
+          setTimeout(() => {
+            newText.style.display = 'none';
+            originalText.style.display = 'block';
+            originalText.style.transform = 'scale(1.05)';
+            originalText.style.opacity = '0';
+            originalText.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            
+            setTimeout(() => {
+              originalText.style.transform = 'scale(1)';
+              originalText.style.opacity = '1';
+            }, 50);
+          }, 800);
+        }
+      }
+
+      window.scrollTo(0, 0);
+
+      setTimeout(() => {
+        splashScreen.classList.add('hidden');
+        
+        setTimeout(() => {
+          titleWrapper.classList.add('visible');
+          homeButton.classList.add('visible');
+          
+          setTimeout(() => {
+            welcomeText.classList.add('visible');
+            modelContainer.classList.add('visible');
+            scrollIndicator.classList.add('visible');
+
+            // بدء دورة تغيير النص كل 5 ثواني
+            setInterval(toggleText, 5000);
+          }, 300);
+        }, 300);
+      }, 4000);
+
+      window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const overlay = document.getElementById('overlay');
+        const content = document.getElementById('mainContent');
+        const secondPage = document.querySelector('.second-page');
+
+        const fadeProgress = Math.min(scrollY / (windowHeight * 0.3), 1);
+        overlay.style.opacity = fadeProgress;
+
+        // إخفاء زر التمرير عند التمرير
+        if (scrollY > 100) {
+          scrollIndicator.classList.remove('visible');
+        } else {
+          scrollIndicator.classList.add('visible');
+        }
+
+        if (scrollY > windowHeight * 0.3) {
+          secondPage.classList.add('visible');
+        } else {
+          secondPage.classList.remove('visible');
+        }
+
+        if (scrollY > windowHeight * 0.25) {
+          titleWrapper.classList.add('fade-out');
+          homeButton.classList.add('fade-out');
+        } else {
+          titleWrapper.classList.remove('fade-out');
+          homeButton.classList.remove('fade-out');
+        }
+      });
+
+      if (!localStorage.getItem('headerCartCount')) {
+        localStorage.setItem('headerCartCount', '0');
+      }
+
+      const modelViewer = document.getElementById('modelViewer');
+      modelViewer.removeAttribute('camera-controls');
+      modelViewer.style.cursor = 'default';
+
+      const addToCartButtons = document.querySelectorAll('.add-to-cart');
+      
+      addToCartButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          // الحصول على سعر المنتج
+          const priceText = this.closest('.product-info').querySelector('.product-price').textContent;
+          const price = parseFloat(priceText.replace('MAD', '').trim());
+          
+          // تحديث عدد المنتجات
+          let cartCount = parseInt(localStorage.getItem('headerCartCount')) || 0;
+          cartCount++;
+          localStorage.setItem('headerCartCount', cartCount.toString());
+          
+          // تحديث المبلغ الإجمالي
+          let totalAmount = parseFloat(localStorage.getItem('cartTotalAmount')) || 0;
+          totalAmount += price;
+          localStorage.setItem('cartTotalAmount', totalAmount.toFixed(2));
+          
+          // إرسال حدث تحديث
+          const storageEvent = new StorageEvent('storage', {
+            key: 'cartTotalAmount',
+            oldValue: (totalAmount - price).toString(),
+            newValue: totalAmount.toString(),
+            storageArea: localStorage
+          });
+          window.dispatchEvent(storageEvent);
+          
+          // تأثيرات الزر
+          this.style.transform = 'scale(0.95)';
+          const originalText = this.textContent;
+          this.textContent = `Added! (${price} MAD)`;
+          this.style.background = 'linear-gradient(45deg, #4CAF50, #45a049)';
+          
+          setTimeout(() => {
+            this.style.transform = 'scale(1)';
+            this.textContent = originalText;
+            this.style.background = 'linear-gradient(45deg, #ff69b4, #da70d6)';
+          }, 1000);
+        });
+      });
+    });
+  </script>
+</body>
+</html> 

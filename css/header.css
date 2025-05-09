@@ -1,0 +1,92 @@
+/* تنسيق عام للـ header */
+header.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: white;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  /* الشعار */
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .logo img {
+    width: 32px;
+    height: auto;
+    transition: transform 0.3s ease;
+  }
+  
+  .logo:hover img {
+    transform: scale(1.1);
+  }
+  
+  /* روابط أو أزرار في الهيدر */
+  .links {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  /* أزرار تسجيل الدخول والتسجيل */
+  .links button,
+  .links a {
+    padding: 0.5rem 1.25rem;
+    border-radius: 999px;
+    border: 1px solid #ccc;
+    background-color: transparent;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .links button:hover,
+  .links a:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* زر سلة المشتريات مع رقم */
+  .cart {
+    position: relative;
+  }
+  
+  .cart span {
+    position: absolute;
+    top: -6px;
+    right: -10px;
+    background-color: #f44336;
+    color: white;
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 999px;
+  }
+  
+  /* تجاوب مع الشاشات الصغيرة */
+  @media (max-width: 600px) {
+    header.flex {
+      flex-direction: column;
+      align-items: center; /* يوسط كل العناصر داخل الهيدر */
+      gap: 1rem;
+      padding-inline: 1rem;
+    }
+  
+    .logo {
+      display: none !important;
+    }
+  
+    .links {
+      width: 100%; /* ضروري ليتفاعل مع justify-content */
+      display: flex;
+      justify-content: center; /* وسط الأيقونات */
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+  }
+  

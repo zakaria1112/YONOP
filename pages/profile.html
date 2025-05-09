@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile - YONOP</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <style>
+    body {
+      background: linear-gradient(120deg, #232526 0%, #ff69b4 100%);
+      color: #f7f7fa;
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .profile-container {
+      background: rgba(30,30,40,0.93);
+      border-radius: 20px;
+      padding: 2.5rem 2.7rem 2rem 2.7rem;
+      margin-top: 3.5rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 1.5px 8px rgba(255,105,180,0.08);
+      max-width: 520px;
+      width: 100%;
+      transition: box-shadow 0.2s;
+    }
+    .profile-container:hover {
+      box-shadow: 0 12px 40px rgba(255,105,180,0.13), 0 2px 12px rgba(30,30,40,0.13);
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin-bottom: 2.2rem;
+      justify-content: center;
+    }
+    .profile-header i {
+      font-size: 4.2rem;
+      color: #ff69b4;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 2px 16px rgba(255,105,180,0.13);
+      padding: 0.3em;
+      margin-right: 0.2em;
+    }
+    .profile-header .name {
+      font-size: 2.1rem;
+      font-weight: bold;
+      color: #fff;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 8px rgba(255,105,180,0.08);
+    }
+    .profile-info {
+      margin-bottom: 2.2rem;
+      background: rgba(255,255,255,0.07);
+      border-radius: 10px;
+      padding: 1.1rem 1.3rem 0.7rem 1.3rem;
+      box-shadow: 0 1px 8px rgba(255,105,180,0.05);
+    }
+    .profile-info div {
+      margin-bottom: 0.7rem;
+      font-size: 1.13rem;
+      color: #fff;
+    }
+    .profile-info strong {
+      color: #ff69b4;
+      font-weight: 600;
+    }
+    .orders-section {
+      margin-top: 1.5rem;
+    }
+    .orders-section h3 {
+      color: #ff69b4;
+      margin-bottom: 0.7rem;
+      font-size: 1.25rem;
+      letter-spacing: 0.5px;
+    }
+    .order-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .order-list li {
+      background: rgba(255,255,255,0.13);
+      border-radius: 10px;
+      margin-bottom: 0.7rem;
+      padding: 0.9rem 1.2rem;
+      color: #fff;
+      font-size: 1.08rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 6px rgba(255,105,180,0.07);
+      transition: background 0.2s, transform 0.2s;
+    }
+    .order-list li:hover {
+      background: #ff69b4;
+      color: #fff;
+      transform: scale(1.025);
+    }
+    .no-orders {
+      color: #eee;
+      font-style: italic;
+      margin-top: 1rem;
+      text-align: center;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-top: 2.2rem;
+      padding: 0.9rem 2.1rem;
+      background: linear-gradient(90deg, #ff69b4 0%, #da70d6 100%);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.08rem;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(255,105,180,0.10);
+      transition: transform 0.22s, background 0.22s;
+    }
+    .back-btn:hover {
+      transform: scale(1.06);
+      background: linear-gradient(90deg, #ff3380 0%, #b266b2 100%);
+    }
+    #profileImgBtn {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.0);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.18s, box-shadow 0.18s;
+      z-index: 3;
+      border: none;
+      box-shadow: none;
+    }
+    #profileImgBtn i {
+      font-size: 1.25rem;
+      color: #fff;
+      text-shadow: 0 2px 8px #ff69b4, 0 1px 2px #2228;
+      transition: color 0.18s, text-shadow 0.18s;
+    }
+    #profileImgBtn:hover {
+      transform: scale(1.18);
+      box-shadow: 0 2px 12px #ff69b4aa;
+      background: rgba(255,255,255,0.13);
+    }
+    #profileImgBtn:hover i {
+      color: #ff69b4;
+      text-shadow: 0 2px 12px #fff, 0 1px 2px #ff69b4;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <button id="infoBtn" title="معلومات الموقع" style="position:absolute;top:18px;right:24px;background:linear-gradient(135deg,#ff69b4,#da70d6);border:none;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(255,105,180,0.13);color:#fff;font-size:1.3rem;cursor:pointer;transition:background 0.2s,transform 0.2s;z-index:2;outline:none;">
+      <i class="fas fa-exclamation"></i>
+    </button>
+    <div class="profile-header">
+      <div style="position:relative;display:flex;align-items:center;gap:12px;">
+        <img id="profileImg" src="" alt="Profile" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid #ff69b4;box-shadow:0 2px 16px rgba(255,105,180,0.13);background:#fff;">
+        <label for="profileImgInput" id="profileImgBtn" style="position:absolute;top:4px;left:4px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:rgba(255,255,255,0.0);border-radius:50%;transition:transform 0.18s, box-shadow 0.18s;z-index:3;">
+          <i class="fas fa-camera"></i>
+          <input type="file" id="profileImgInput" accept="image/*" style="display:none;">
+        </label>
+      </div>
+      <span class="name" id="fullName">User Name</span>
+    </div>
+    <button id="saveProfileImgBtn" style="display:none;margin-bottom:1.2rem;background:#9FC5EF;color:#222;border:none;border-radius:7px;padding:0.6rem 1.5rem;font-weight:bold;font-size:1.02rem;box-shadow:0 2px 8px rgba(159,197,239,0.10);cursor:pointer;transition:background 0.2s;">حفظ الصورة</button>
+    <div class="profile-info">
+      <div><strong>Username:</strong> <span id="username">-</span></div>
+      <div><strong>Email:</strong> <span id="email">-</span></div>
+      <div><strong>Phone:</strong> <span id="phone">-</span></div>
+      <div><strong>Total Orders:</strong> <span id="orderCount">0</span></div>
+    </div>
+    <div class="orders-section">
+      <h3>Recent Orders</h3>
+      <ul class="order-list" id="orderList"></ul>
+      <div class="no-orders" id="noOrdersMsg" style="display:none;">No orders yet.</div>
+    </div>
+    <a href="../index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+  </div>
+  <!-- مودال معلومات الموقع -->
+  <div id="infoModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.45);z-index:9999;align-items:center;justify-content:center;">
+    <div style="background:#fff;color:#222;border-radius:18px;max-width:95vw;width:480px;padding:2.2rem 1.5rem 1.5rem 1.5rem;box-shadow:0 8px 32px rgba(0,0,0,0.18),0 1.5px 8px rgba(255,105,180,0.08);position:relative;overflow-y:auto;max-height:90vh;">
+      <button onclick="document.getElementById('infoModal').style.display='none'" style="position:absolute;top:12px;right:18px;background:none;border:none;font-size:1.5rem;color:#ff69b4;cursor:pointer;">&times;</button>
+      <h2 style="color:#ff69b4;text-align:center;font-size:1.4rem;margin-bottom:1.2rem;font-weight:800;">شروط الاستخدام لموقع YONOP</h2>
+      <div style="font-size:1.05rem;line-height:1.8;direction:rtl;text-align:right;max-width:100%;overflow-x:auto;">
+        مرحبًا بك في موقع YONOP!<br><br>
+يرجى قراءة شروط الاستخدام هذه بعناية قبل استخدام الموقع. باستخدامك لموقعنا، فإنك توافق تلقائيًا على الالتزام بهذه الشروط.<br><br>
+<b>1. من نحن</b><br>
+مطور هذا الموقع هو زكرياء الهلالي، مبرمج ويب وطالب في المدرسة العليا للتكنولوجيا، حاصل قريبًا على دبلوم في التكوين المهني تخصص الآلية والأدواتية الصناعية، وخبير في مجالات:<br>
+<ul style='margin:0 0 0 1.5em;padding:0 0 0 1.5em;list-style:disc;'>
+<li>التجارة الإلكترونية</li>
+<li>التصوير الفوتوغرافي (فوتوغرامي)</li>
+<li>الديزاين وتصميم الجرافيك</li>
+<li>تطوير المواقع الإلكترونية</li>
+</ul>
+للتواصل معنا:<br>
+Instagram: <b>@z_el_111</b><br><br>
+<b>2. القبول بالشروط</b><br>
+باستخدامك لهذا الموقع، فإنك تقر وتوافق على الالتزام بجميع الشروط والأحكام المنصوص عليها هنا. إذا كنت لا توافق على أي جزء من هذه الشروط، يرجى عدم استخدام الموقع.<br><br>
+<b>3. التعديلات على الشروط</b><br>
+نحتفظ بحق تعديل أو تحديث شروط الاستخدام في أي وقت. سيتم نشر التعديلات على هذه الصفحة ويُعتبر استمرار استخدامك للموقع قبولاً لهذه التعديلات.<br><br>
+<b>4. حقوق الملكية</b><br>
+جميع محتويات الموقع (تصميمات، نصوص، صور، فيديوهات، وأكواد) مملوكة حصريًا لـ YONOP وزكرياء الهلالي، ومحمية بموجب قوانين حقوق النشر والعلامات التجارية.<br><br>
+<b>5. استخدام الموقع</b><br>
+مسموح لك باستخدام الموقع فقط للأغراض الشخصية وغير التجارية، ويُحظر عليك:<br>
+<ul style='margin:0 0 0 1.5em;padding:0 0 0 1.5em;list-style:disc;'>
+<li>نسخ أو تعديل أو توزيع أي جزء من الموقع بدون إذن كتابي.</li>
+<li>استخدام الموقع لأي أنشطة غير قانونية أو مضرة.</li>
+<li>محاولة اختراق أمان الموقع أو الوصول إلى بيانات غير مصرح بها.</li>
+</ul><br>
+<b>6. إنشاء حساب</b><br>
+عند إنشاء حساب في موقعنا:<br>
+<ul style='margin:0 0 0 1.5em;padding:0 0 0 1.5em;list-style:disc;'>
+<li>يجب تقديم معلومات دقيقة وكاملة.</li>
+<li>أنت مسؤول عن الحفاظ على سرية بيانات تسجيل الدخول الخاصة بك.</li>
+<li>يحق لنا تعليق أو حذف أي حساب ينتهك هذه الشروط دون إشعار مسبق.</li>
+</ul><br>
+<b>7. إخلاء المسؤولية</b><br>
+نحن نبذل جهدنا لضمان أن جميع المعلومات على الموقع دقيقة ومحدثة، ولكننا لا نضمن خلوها من الأخطاء أو العيوب.<br><br>
+<b>8. الروابط الخارجية</b><br>
+قد يحتوي موقعنا على روابط لمواقع أخرى (مثل Instagram). نحن لسنا مسؤولين عن محتوى أو سياسات أي موقع خارجي.<br><br>
+<b>9. إنهاء الاستخدام</b><br>
+نحتفظ بالحق في إنهاء أو تعليق وصولك إلى الموقع دون إشعار مسبق، إذا قمت بانتهاك أي من هذه الشروط.<br><br>
+<b>10. القانون الواجب التطبيق</b><br>
+تخضع هذه الشروط وتفسر وفقًا للقوانين المحلية للمملكة المغربية، أو حسب مكان إقامة مطور الموقع.<br><br>
+<b>تواصل معنا</b><br>
+لأي استفسارات أو دعم فني، يمكنك التواصل معنا عبر:<br>
+Instagram: <b>@z_el_111</b>
+      </div>
+    </div>
+  </div>
+  <script>
+    // جلب بيانات المستخدم الحالي من LocalStorage
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    let username = currentUser && currentUser.username ? currentUser.username : null;
+    let user = null;
+    if (username) {
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      user = users.find(u => u.username === username);
+    }
+    if (user) {
+      document.getElementById('fullName').textContent = user.fullName || '-';
+      document.getElementById('username').textContent = user.username || '-';
+      document.getElementById('email').textContent = user.email || '-';
+      document.getElementById('phone').textContent = user.phone || '-';
+    }
+    // جلب الطلبات من ordersHistory_USERNAME
+    let orders = username ? (JSON.parse(localStorage.getItem('ordersHistory_' + username)) || []) : [];
+    document.getElementById('orderCount').textContent = orders.length;
+    const orderList = document.getElementById('orderList');
+    if (orders.length > 0) {
+      orders.slice(-5).reverse().forEach(order => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span>${order.date || ''}</span> <span>${order.itemsCount} items - ${order.total} MAD</span>`;
+        orderList.appendChild(li);
+      });
+    } else {
+      document.getElementById('noOrdersMsg').style.display = 'block';
+    }
+    document.getElementById('infoBtn').onclick = function() {
+      document.getElementById('infoModal').style.display = 'flex';
+    };
+    // صورة البروفايل
+    const profileImg = document.getElementById('profileImg');
+    const profileImgInput = document.getElementById('profileImgInput');
+    const saveProfileImgBtn = document.getElementById('saveProfileImgBtn');
+    if (username) {
+      const imgData = localStorage.getItem('profileImg_' + username);
+      if (imgData) profileImg.src = imgData;
+      else profileImg.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(document.getElementById('fullName').textContent) + '&background=ff69b4&color=fff&size=128';
+    }
+    profileImgInput.onchange = function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        profileImg.src = ev.target.result;
+        saveProfileImgBtn.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    };
+    saveProfileImgBtn.onclick = function() {
+      if (username && profileImg.src) {
+        localStorage.setItem('profileImg_' + username, profileImg.src);
+        saveProfileImgBtn.style.display = 'none';
+        alert('تم حفظ صورة البروفايل بنجاح!');
+      }
+    };
+  </script>
+</body>
+</html> 

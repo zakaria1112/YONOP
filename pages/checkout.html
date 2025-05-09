@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout - YONOP</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function() {
+      emailjs.init("40l_RWH--yaQHKzNc");
+    })();
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    input, textarea {
+      user-select: text;
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+    }
+
+    .checkout-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .checkout-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .checkout-title {
+      font-size: 2.5rem;
+      color: #ff69b4;
+      margin-bottom: 1rem;
+    }
+
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .customer-form {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #ff69b4;
+    }
+
+    .confirm-button {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(45deg, #ff69b4, #da70d6);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 2rem;
+    }
+
+    .confirm-button:hover {
+      transform: scale(1.02);
+    }
+
+    .confirm-button:disabled {
+      background: rgba(255, 255, 255, 0.1);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .payment-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .payment-option {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 2rem;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      text-align: center;
+    }
+
+    .payment-option.selected {
+      border-color: #ff69b4;
+      background: rgba(255, 105, 180, 0.1);
+    }
+
+    .payment-icon {
+      font-size: 3rem;
+      color: #ff69b4;
+      margin-bottom: 1rem;
+    }
+
+    .payment-title {
+      font-size: 1.5rem;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+
+    .payment-description {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .payment-message {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.9);
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      z-index: 1000;
+      display: none;
+    }
+
+    .payment-message.show {
+      display: block;
+    }
+
+    .close-message {
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <a href="product-details.html" class="back-button">
+    <i class="fas fa-arrow-left"></i> Back
+  </a>
+
+  <div class="checkout-container">
+    <div class="checkout-header">
+      <h1 class="checkout-title">Complete Your Purchase</h1>
+    </div>
+
+    <div class="payment-options">
+      <div class="payment-option" onclick="selectPayment('card')">
+        <div class="payment-icon">
+          <i class="fas fa-credit-card"></i>
+        </div>
+        <h2 class="payment-title">Pay with Card</h2>
+        <p class="payment-description">Secure payment with credit or debit card</p>
+      </div>
+
+      <div class="payment-option" onclick="selectPayment('cash')">
+        <div class="payment-icon">
+          <i class="fas fa-money-bill-wave"></i>
+        </div>
+        <h2 class="payment-title">Cash on Delivery</h2>
+        <p class="payment-description">Pay when your order arrives</p>
+      </div>
+    </div>
+
+    <div class="customer-form">
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" required>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" required>
+      </div>
+      <div class="form-group">
+        <label for="address">Address</label>
+        <input type="text" id="address" required>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" required>
+      </div>
+      <input type="email" name="to_email" value="animoslim1@gmail.com" hidden>
+      
+      <button class="confirm-button" id="confirmButton" disabled onclick="confirmOrder()">
+        Confirm Order
+      </button>
+    </div>
+  </div>
+
+  <div class="payment-message" id="cardMessage">
+    <div class="message-icon">
+      <i class="fas fa-credit-card"></i>
+    </div>
+    <p class="message-text">Card payment is not available at the moment. This feature will be added in the future.</p>
+    <button class="close-message" onclick="closeMessage()">Close</button>
+  </div>
+
+  <script>
+    let selectedPayment = null;
+    let cartItems = [];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    });
+
+    function selectPayment(method) {
+      if (method === 'card') {
+        document.getElementById('cardMessage').classList.add('show');
+        return;
+      }
+      
+      selectedPayment = method;
+      
+      document.querySelectorAll('.payment-option').forEach(option => {
+        option.classList.remove('selected');
+      });
+      
+      document.querySelector(`.payment-option[onclick="selectPayment('${method}')"]`).classList.add('selected');
+      
+      document.getElementById('confirmButton').disabled = false;
+    }
+
+    function confirmOrder() {
+      if (!selectedPayment) return;
+      
+      const firstName = document.getElementById('firstName').value;
+      const lastName = document.getElementById('lastName').value;
+      const address = document.getElementById('address').value;
+      const phone = document.getElementById('phone').value;
+      
+      if (!firstName || !lastName || !address || !phone) {
+        alert('Please fill in all required information');
+        return;
+      }
+
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (currentUser && currentUser.username) {
+        const username = currentUser.username;
+        const ordersKey = 'ordersHistory_' + username;
+        const orders = JSON.parse(localStorage.getItem(ordersKey)) || [];
+        const order = {
+          itemsCount: cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0),
+          total: cartItems.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0),
+          date: new Date().toLocaleString(),
+          items: cartItems.map(item => ({ name: item.name, quantity: item.quantity || 1, price: item.price }))
+        };
+        orders.push(order);
+        localStorage.setItem(ordersKey, JSON.stringify(orders));
+      }
+
+      const templateParams = {
+        from_name: `${firstName} ${lastName}`,
+        to_name: "YONOP Store",
+        message: `Customer Information:\nName: ${firstName} ${lastName}\nPhone: ${phone}\nAddress: ${address}`,
+        reply_to: "animoslim1@gmail.com"
+      };
+
+      console.log("Sending email with params:", templateParams);
+
+      emailjs.send("service_1tzvhwp", "template_b2jonj2", templateParams)
+        .then(
+          function(response) {
+            console.log("SUCCESS!", response.status, response.text);
+            window.location.href = 'order-sent.html';
+          },
+          function(error) {
+            console.log("FAILED...", error);
+            window.location.href = 'order-sent.html';
+          }
+        );
+    }
+
+    function closeMessage() {
+      document.getElementById('cardMessage').classList.remove('show');
+    }
+  </script>
+</body>
+</html> 

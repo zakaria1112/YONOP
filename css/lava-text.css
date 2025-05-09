@@ -1,0 +1,59 @@
+/* Hide scrollbar */
+body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+.lava-text {
+  position: relative;
+  font-size: 4em;
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.text-content {
+  position: relative;
+  z-index: 1;
+  color: white;
+  background: linear-gradient(
+    45deg,
+    #6b248b,  /* Dark purple */
+    #9b59b6,  /* Medium purple */
+    #c56ccf,  /* Light purple */
+    #ff4d8b,  /* Pink */
+    #ff80bf,  /* Light pink */
+    #ffffff   /* White */
+  );
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: lavaFlow 4s linear infinite;
+}
+
+@keyframes lavaFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

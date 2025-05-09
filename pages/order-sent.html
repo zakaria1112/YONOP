@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Sent - YONOP</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+    input, textarea {
+      user-select: text;
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+    }
+
+    .success-container {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .success-icon {
+      font-size: 4rem;
+      color: #4CAF50;
+      margin-bottom: 1.5rem;
+      animation: scaleIn 0.5s ease;
+    }
+
+    .success-title {
+      font-size: 2rem;
+      color: #ff69b4;
+      margin-bottom: 1rem;
+    }
+
+    .success-message {
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+
+    .back-button {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(45deg, #ff69b4, #da70d6);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: transform 0.3s ease;
+    }
+
+    .back-button:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes scaleIn {
+      from {
+        transform: scale(0);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+  <style>
+    .home-top-left {
+      position: fixed;
+      top: 32px;
+      left: 32px;
+      z-index: 1000;
+      background: linear-gradient(90deg, #232526 0%, #414345 100%);
+      color: #ff69b4;
+      border-radius: 16px 32px 16px 32px;
+      padding: 0.85rem 2.2rem 0.85rem 1.5rem;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 4px 24px 0 rgba(255,105,180,0.10), 0 1.5px 8px 0 rgba(0,0,0,0.18);
+      transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+      border: 2px solid #ff69b4;
+      font-size: 1.08rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7em;
+      opacity: 0.97;
+      letter-spacing: 0.5px;
+    }
+    .home-top-left:hover {
+      background: linear-gradient(90deg, #ff69b4 0%, #da70d6 100%);
+      color: #fff;
+      border-color: #fff;
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 6px 32px 0 rgba(255,105,180,0.18), 0 2px 12px 0 rgba(0,0,0,0.22);
+      opacity: 1;
+    }
+    .home-top-left .fa-home {
+      font-size: 1.2em;
+      margin-left: 0.2em;
+    }
+  </style>
+</head>
+<body>
+  <div class="success-container">
+    <div class="success-icon">
+      <i class="fas fa-check-circle"></i>
+    </div>
+    <h1 class="success-title">Order Sent Successfully!</h1>
+    <p class="success-message">
+      Thank you for your purchase. We have received your order and will process it shortly.
+      You will receive a confirmation email with your order details.
+    </p>
+  </div>
+  <a href="../index.html" class="home-top-left"><i class="fas fa-home"></i> العودة للصفحة الرئيسية</a>
+</body>
+</html> 

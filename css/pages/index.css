@@ -1,0 +1,95 @@
+div.top-img {
+  height: 100vh;
+  background-image: url(../../images/LOW.png);
+  background-position: top center; /* ✅ تغيير هنا */
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden; /* يمنع السكرول إن حدث */
+}
+
+
+/* كود استجابة Responsive: إذا عرض الشاشة أقل من 1000px */
+@media (width < 1000px) {
+  div.top-img {
+    background-position: left;
+  }
+}
+
+
+
+
+
+section.content {
+  position: absolute;
+  top: 45%;
+  left: 10%;
+  transform: translateY(-50%);
+}
+
+.lifestyle {
+  font-size: 1.2rem;
+  color: gray;
+  text-transform: uppercase;
+}
+
+.men {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: black;
+}
+
+.sale {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+  color: black;
+}
+
+.sale .red {
+  color: red;
+}
+
+.shipping {
+  font-size: 1rem;
+  color: gray;
+  margin-bottom: 1.2rem;
+}
+
+.shop-now-btn {
+  padding: 0.8rem 1.5rem;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+.btn {
+  border: 1px solid black; /* أسود بدل var(--bodyFont) */
+  padding: 0.44rem 1rem;
+  border-radius: 55px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: transparent;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: black;
+  color: white;
+  transform: scale(1.05); /* أنميشن بسيط */
+}
+
+/* تخصيص زر Shop Now لو تبغى تمييز إضافي */
+.shop-now-btn {
+  margin-top: 0.9rem;
+}
+
+

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Details - YONOP</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    input, textarea {
+      user-select: text;
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .product-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 4rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 2rem;
+    }
+
+    .product-image {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 1rem;
+    }
+
+    .product-title {
+      font-size: 2rem;
+      color: #ff69b4;
+      margin-bottom: 1rem;
+    }
+
+    .product-description {
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .product-price {
+      font-size: 1.5rem;
+      color: #ff69b4;
+      margin-bottom: 2rem;
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .quantity-button {
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .quantity-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .quantity-display {
+      font-size: 1.2rem;
+      color: white;
+    }
+
+    .checkout-button {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: linear-gradient(45deg, #ff69b4, #da70d6);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .checkout-button:hover {
+      transform: scale(1.05);
+    }
+
+    .total-price {
+      font-size: 1.2rem;
+      color: #ff69b4;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <a href="product-details.html" class="back-button">
+    <i class="fas fa-arrow-left"></i> Back
+  </a>
+
+  <div class="container">
+    <div class="product-container" id="productDetails">
+      <!-- Product details will be populated by JavaScript -->
+    </div>
+  </div>
+
+  <script>
+    let currentProduct = null;
+    let quantity = 1;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get product details from localStorage
+      currentProduct = JSON.parse(localStorage.getItem('currentProduct'));
+      if (!currentProduct) {
+        window.location.href = 'product-details.html';
+        return;
+      }
+
+      // Display product details
+      const productContainer = document.getElementById('productDetails');
+      productContainer.innerHTML = `
+        <div class="product-image-container">
+          <img src="${currentProduct.image}" alt="${currentProduct.name}" class="product-image">
+        </div>
+        <div class="product-info">
+          <h1 class="product-title">${currentProduct.name}</h1>
+          <p class="product-description">${currentProduct.description}</p>
+          <div class="product-price">Price: ${currentProduct.price}</div>
+          
+          <div class="quantity-controls">
+            <button class="quantity-button" onclick="updateQuantity(-1)">-</button>
+            <span class="quantity-display">${quantity}</span>
+            <button class="quantity-button" onclick="updateQuantity(1)">+</button>
+          </div>
+
+          <div class="total-price">
+            Total: MAD ${calculateTotal()}
+          </div>
+
+          <button class="checkout-button" onclick="proceedToCheckout()">
+            BUY NOW
+          </button>
+        </div>
+      `;
+    });
+
+    function updateQuantity(change) {
+      const newQuantity = quantity + change;
+      if (newQuantity >= 1) {
+        quantity = newQuantity;
+        updateDisplay();
+      }
+    }
+
+    function calculateTotal() {
+      const price = parseFloat(currentProduct.price.replace('MAD ', ''));
+      return (price * quantity).toFixed(2);
+    }
+
+    function updateDisplay() {
+      document.querySelector('.quantity-display').textContent = quantity;
+      document.querySelector('.total-price').textContent = `Total: MAD ${calculateTotal()}`;
+    }
+
+    function proceedToCheckout() {
+      // Save the product with selected quantity to cart
+      const cartItem = {
+        ...currentProduct,
+        quantity: quantity
+      };
+
+      const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+      cartItems.push(cartItem);
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+      // Redirect to checkout page
+      window.location.href = 'checkout.html';
+    }
+  </script>
+</body>
+</html> 

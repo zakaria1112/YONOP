@@ -1,0 +1,660 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YONOP - Product Gallery</title>
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/pages/product-details.css" />
+  <link rel="stylesheet" href="../css/lava-text.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <style>
+    /* Prevent text selection */
+    * {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    /* Allow text selection in inputs and textareas */
+    input, textarea {
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+    }
+
+    /* Prevent text selection */
+    * {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    /* Allow text selection in inputs and textareas */
+    input, textarea {
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+    }
+
+    @keyframes scrollText {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    /* Ad Banner Styles */
+    .ad-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f9f9f9;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .ad-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .ad-image {
+      width: 200px;
+      height: auto;
+      border-radius: 8px;
+      margin-right: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .ad-text {
+      max-width: 60%;
+    }
+
+    .ad-text h2 {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .ad-text p {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .cta-button {
+      background-color: #ff6347;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      font-size: 18px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      cursor: pointer;
+    }
+
+    .cta-button:hover {
+      background-color: #e53e32;
+    }
+
+    /* Add smooth scroll behavior */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Add a small delay to prevent scroll jumping */
+    .product-container {
+      transition: transform 0.8s ease-in-out;
+    }
+    .ad-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f9f9f9;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .ad-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .ad-image {
+      width: 200px;
+      height: auto;
+      border-radius: 8px;
+      margin-right: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .ad-text {
+      max-width: 60%;
+    }
+
+    .ad-text h2 {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .ad-text p {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .cta-button {
+      background-color: #ff6347;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      font-size: 18px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .cta-button:hover {
+      background-color: #e53e32;
+    }
+
+    .promo-button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      font-size: 18px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      margin-left: 10px;
+    }
+
+    .promo-button:hover {
+      background-color: #45a049;
+    }
+
+
+    }
+
+
+
+
+
+
+
+
+  </style>
+</head>
+<body>
+  <header style="background: black; color: white; padding: 20px; text-align: center; position: relative;">
+    <a href="../index.html" class="back-button" style="
+      position: fixed;
+      left: 20px;
+      top: 20px;
+      text-decoration: none;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 1000;
+    " id="backButton">
+      <i class="fas fa-arrow-left"></i>
+    </a>
+    <div class="lava-text">
+      <div class="text-content">YONOP</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Ad Banner -->
+    <div class="ad-container">
+      <div class="ad-content">
+        <img src="../images/31.png" alt="Ad Image" class="ad-image">
+        <div class="ad-text">
+          <h2 style="font-size: 32px; font-weight: 800; background: linear-gradient(45deg, #ff6347, #ff4081); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);">عرض خاص فقط لك!</h2>
+          <p>احصل على خصم 20% على جميع المنتجات. سارع بالاستفادة من العرض قبل انتهاء الوقت!</p>
+          <a href="#" class="cta-button" onclick="scrollToProducts(event)">استفد الآن</a>
+          <a href="#" class="promo-button" onclick="showPromoCode(event)">كود البرومو</a>
+        </div>
+      </div>
+    </div>
+    <!-- إعلان التخفيض -->
+
+
+    <h2 style="text-align:center; margin-top: 20px;">Our Products</h2>
+    <div class="product-container">
+      <!-- Products will be generated here by JavaScript -->
+    </div>
+  </main>
+
+  <div id="promoModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div id="promoForm">
+        <p style="color: red; margin-bottom: 10px; text-align: center;">
+          كود البرومو هو هدية لزبناءنا المميزين للحصول على أي منتج بثمن 99 درهم
+        </p>
+        <h2>ادخل كود البرومو</h2>
+        <input type="text" id="promoCodeInput" placeholder="ادخل الكود هنا...">
+        <button onclick="verifyPromoCode()">تأكيد</button>
+      </div>
+      <div id="promoResult" style="display: none;">
+        <h2 id="resultMessage"></h2>
+        <button id="tryAgainBtn" onclick="resetPromoModal()" style="display: none;">جرب مرة أخرى</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    .close {
+      position: absolute;
+      right: 20px;
+      top: 10px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #promoCodeInput {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px 0;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #promoResult {
+      padding: 20px;
+    }
+
+    #resultMessage {
+      margin: 20px 0;
+    }
+  </style>
+
+  <script>
+    // Function to handle promo code button click
+    function showPromoCode(event) {
+      event.preventDefault();
+      const modal = document.getElementById("promoModal");
+      modal.style.display = "block";
+    }
+
+    // Close the modal when clicking the X button
+    document.querySelector(".close").onclick = function() {
+      const modal = document.getElementById("promoModal");
+      modal.style.display = "none";
+      resetPromoModal();
+    }
+
+    // Close the modal when clicking outside
+    window.onclick = function(event) {
+      const modal = document.getElementById("promoModal");
+      if (event.target == modal) {
+        modal.style.display = "none";
+        resetPromoModal();
+      }
+    }
+
+    // Function to verify promo code
+    function verifyPromoCode() {
+      const input = document.getElementById("promoCodeInput").value;
+      const correctCode = "yonop111";
+      const resultDiv = document.getElementById("promoResult");
+      const resultMessage = document.getElementById("resultMessage");
+      const tryAgainBtn = document.getElementById("tryAgainBtn");
+      const promoForm = document.getElementById("promoForm");
+
+      if (input === correctCode) {
+        // Update all product prices to 99 درهم
+        const productCards = document.querySelectorAll('.product-card');
+        productCards.forEach(card => {
+          const priceContainer = card.querySelector('.price-container');
+          if (priceContainer) {
+            // Get the original price from the new price (which was black)
+            const originalPrice = priceContainer.querySelector('.new-price');
+            if (originalPrice) {
+              const originalPriceText = originalPrice.textContent;
+              
+              // Update to show only the new price (99 درهم) after promo code verification
+              priceContainer.innerHTML = `
+                <span class="new-price" style="color: #4CAF50; font-size: 20px; font-weight: bold;">99 درهم</span>
+              `;
+            }
+          }
+        });
+
+        // Show success message
+        resultMessage.textContent = "الكود صحيح! لقد حصلت على خصم 10%";
+        resultMessage.style.color = "#4CAF50";
+        tryAgainBtn.style.display = "none";
+        
+        // Hide the message after 3 seconds
+        setTimeout(() => {
+          resultDiv.style.display = "none";
+          promoForm.style.display = "block";
+          document.getElementById("promoModal").style.display = "none";
+        }, 3000);
+      } else {
+        resultMessage.textContent = "عذراً، الكود غير صحيح. جرب مرة أخرى";
+        resultMessage.style.color = "#ff4444";
+        tryAgainBtn.style.display = "inline-block";
+      }
+
+      promoForm.style.display = "none";
+      resultDiv.style.display = "block";
+    }
+
+    // Function to reset the modal
+    function resetPromoModal() {
+      document.getElementById("promoForm").style.display = "block";
+      document.getElementById("promoResult").style.display = "none";
+      document.getElementById("promoCodeInput").value = "";
+    }
+
+    // Function to scroll to products section
+    function scrollToProducts(event) {
+      event.preventDefault(); // Prevent default link behavior
+      const productsSection = document.querySelector('.product-container');
+      if (productsSection) {
+        // Create a custom scroll animation
+        const start = window.pageYOffset;
+        const end = productsSection.getBoundingClientRect().top + window.pageYOffset;
+        const duration = 1500; // 1.5 seconds
+        let startTime = null;
+
+        function animation(currentTime) {
+          if (startTime === null) startTime = currentTime;
+          const timeElapsed = currentTime - startTime;
+          const run = ease(timeElapsed, start, end - start, duration);
+          window.scrollTo(0, run);
+          if (timeElapsed < duration) requestAnimationFrame(animation);
+        }
+
+        function ease(t, b, c, d) {
+          t /= d;
+          return c * t * t + b;
+        }
+
+        requestAnimationFrame(animation);
+      }
+    }
+
+    // Rest of your existing JavaScript code...
+    const productContainer = document.querySelector('.product-container');
+    // قائمة المنتجات التي نريد عرضها
+    const availableProducts = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 29, 30];
+
+    // إنشاء البطاقات للمنتجات المتاحة فقط
+    availableProducts.forEach(productId => {
+      const productCard = document.createElement('div');
+      productCard.className = 'product-card';
+      
+      // تحديد النص حسب رقم المنتج
+      let productName = productId;
+      
+      if (productId === 1) {
+        productName = 'Barcelona 2019-20';
+      } else if (productId === 2) {
+        productName = 'Manchester United 24/25';
+      } else if (productId === 3) {
+        productName = 'Barcelona 24/25';
+      } else if (productId === 4) {
+        productName = 'Manchester City 2024-25';
+      } else if (productId === 5) {
+        productName = 'Neymar Jr Brasil';
+      } else if (productId === 6) {
+        productName = 'AS Monaco FC';
+      } else if (productId === 7) {
+        productName = 'Bayern Munich';
+      } else if (productId === 8) {
+        productName = 'Manchester City';
+      } else if (productId === 10) {
+        productName = 'Manchester United 24/25';
+      } else if (productId === 11) {
+        productName = 'Al Nassr FC 24/25';
+      } else if (productId === 12) {
+        productName = 'Germany 2024 Home';
+      } else if (productId === 13) {
+        productName = 'Real Madrid 24/25 Home';
+      } else if (productId === 14) {
+        productName = 'FC Barcelona 24/25';
+      } else if (productId === 15) {
+        productName = 'Real Madrid Raul 1998-2000';
+      } else if (productId === 16) {
+        productName = 'Morocco 1998 Home';
+      } else if (productId === 17) {
+        productName = 'Brazil 2002 Home';
+      } else if (productId === 18) {
+        productName = 'France 2006 Zidan';
+      } else if (productId === 19) {
+        productName = 'Juventus 1999/2000';
+      } else if (productId === 20) {
+        productName = 'Real Madrid Ronaldo';
+      } else if (productId === 21) {
+        productName = 'AC Milan 2008/09';
+      } else if (productId === 22) {
+        productName = 'Man-United Cristiano Ronaldo 2007-08';
+      } else if (productId === 23) {
+        productName = 'AC Milan 2006-2007';
+      } else if (productId === 24) {
+        productName = 'Barcelona 2007/08';
+      } else if (productId === 25) {
+        productName = 'Paris Saint-Germain';
+      } else if (productId === 26) {
+        productName = 'AC Milan 2007-2008';
+      } else if (productId === 29) {
+        productName = 'Chelsea 2008–09';
+      } else if (productId === 30) {
+        productName = 'Inter Milan 24/25';
+      }
+      
+      // تحديد الأسعار حسب المنتج
+      let oldPrice, newPrice;
+      switch(productId) {
+        case 1: case 5: case 12:
+          oldPrice = 149;
+          newPrice = 130;
+          break;
+        case 2: case 3: case 4: case 7: case 8: case 10: case 11: case 13: case 14:
+          oldPrice = 120;
+          newPrice = 110;
+          break;
+        case 9:
+          oldPrice = 120;
+          newPrice = 110;
+          break;
+        case 6:
+          oldPrice = 110;
+          newPrice = 99;
+          break;
+        case 15: case 16:
+          oldPrice = 189;
+          newPrice = 169;
+          break;
+        case 17: case 18: case 19:
+          oldPrice = 179;
+          newPrice = 159;
+          break;
+        case 20:
+          oldPrice = 159;
+          newPrice = 130;
+          break;
+        case 21:
+          oldPrice = 170;
+          newPrice = 149;
+          break;
+        case 22:
+          oldPrice = 170;
+          newPrice = 149;
+          break;
+        case 23:
+          oldPrice = 170;
+          newPrice = 149;
+          break;
+        case 24:
+          oldPrice = 179;
+          newPrice = 159;
+          break;
+        case 25:
+          oldPrice = 110;
+          newPrice = 99;
+          break;
+        case 26:
+          oldPrice = 170;
+          newPrice = 149;
+          break;
+        case 29:
+          oldPrice = 170;
+          newPrice = 149;
+          break;
+        case 30:
+          oldPrice = 120;
+          newPrice = 110;
+          break;
+      }
+
+      productCard.innerHTML = `
+        <img src="../images/${productId}.png" alt="${productName}"/>
+        <h2>${productName}</h2>
+        <div class="price-container" style="text-align: center; margin: 10px 0;">
+          <span class="old-price" style="
+            color: red;
+            text-decoration: line-through;
+            font-size: 14px;
+            margin-right: 5px;
+          ">${oldPrice} MAD</span>
+          <span class="new-price" style="
+            color: black;
+            font-size: 18px;
+            font-weight: bold;
+          ">${newPrice} MAD</span>
+        </div>
+        <button class="buy-button" onclick="window.location.href='../pages/checkout.html?product_id=' + ${productId}" style="
+          display: block;
+          background: rgba(255, 255, 255, 0.1);
+          border: 2px solid black;
+          color: black;
+          padding: 10px 20px;
+          border-radius: 25px;
+          font-size: 16px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          margin-top: 10px;
+        "
+        onmouseover="this.style.backgroundColor='rgba(0, 128, 0, 0.8)'; this.style.borderColor='rgba(0, 128, 0, 0.8)'; this.style.color='white';"
+        onmouseout="this.style.backgroundColor='rgba(255, 255, 255, 0.1)'; this.style.borderColor='black'; this.style.color='black';"
+        >Buy Now</button>
+      `;
+      productContainer.appendChild(productCard);
+    });
+  </script>
+  <script>
+    // Function to get the background color at a specific position
+    function getBackgroundColor(x, y) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1;
+      canvas.height = 1;
+      const ctx = canvas.getContext('2d');
+      
+      // Create a temporary element to capture the background
+      const tempDiv = document.createElement('div');
+      tempDiv.style.position = 'fixed';
+      tempDiv.style.top = '0';
+      tempDiv.style.left = '0';
+      tempDiv.style.width = '100%';
+      tempDiv.style.height = '100%';
+      tempDiv.style.zIndex = '-1';
+      document.body.appendChild(tempDiv);
+      
+      // Get the background color
+      ctx.drawImage(tempDiv, 0, 0, 1, 1);
+      const pixel = ctx.getImageData(0, 0, 1, 1).data;
+      
+      document.body.removeChild(tempDiv);
+      return `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+    }
+
+    // Function to calculate luminance
+    function calculateLuminance(rgb) {
+      const [r, g, b] = rgb.match(/\d+/g).map(Number);
+      return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    }
+
+    // Function to update the button color
+    function updateButtonColor() {
+      const button = document.getElementById('backButton');
+      const icon = button.querySelector('i');
+      
+      // Get the background color behind the button
+      const x = button.offsetLeft + button.offsetWidth / 2;
+      const y = button.offsetTop + button.offsetHeight / 2;
+      const bgColor = getBackgroundColor(x, y);
+      
+      // Calculate luminance
+      const luminance = calculateLuminance(bgColor);
+      
+      // Set color based on luminance
+      icon.style.color = luminance > 0.5 ? 'black' : 'white';
+    }
+
+    // Update color on load and scroll
+    window.addEventListener('load', updateButtonColor);
+    window.addEventListener('scroll', updateButtonColor);
+  </script>
+</body>
+</html>
+</html>

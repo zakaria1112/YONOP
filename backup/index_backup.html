@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YONOP Header</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="css/pages/index.css" />
+  <style>
+    /* منع تحديد النص في جميع أنحاء الموقع */
+    * {
+      -webkit-user-select: none;  /* Chrome/Safari/Opera */
+      -moz-user-select: none;     /* Firefox */
+      -ms-user-select: none;      /* Internet Explorer/Edge */
+      user-select: none;          /* Non-prefixed version */
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      position: fixed;
+    }
+
+    html {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    html::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      font-family: Arial, sans-serif;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    body::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
+    }
+
+    /* السماح بتحديد النص في حقول الإدخال */
+    input, textarea {
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+    }
+
+    :root {
+      --blue: #9FC5EF;
+      --bodyFont: #2b3445;
+      --bg: #f6f6f6;
+    }
+
+    a, button {
+      all: unset;
+      display: inline-block;
+      transition: 0.2s;
+    }
+
+    button:active, a:active {
+      scale: 0.9;
+    }
+
+    button:hover, a:hover {
+      cursor: pointer;
+    }
+
+    header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 20px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: transparent;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 4rem;
+      color: var(--bodyFont);
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo i {
+      margin-right: 1rem;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      border: 1px solid var(--bodyFont);
+      padding: 0.44rem 1rem;
+      border-radius: 55px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      background: transparent;
+      color: var(--bodyFont);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: var(--bodyFont);
+      color: var(--blue);
+    }
+
+    .cart-btn {
+      position: relative;
+    }
+
+    .cart-total {
+      display: none;
+    }
+
+    .products-number {
+      position: absolute;
+      right: -5px;
+      top: -5px;
+      height: 20px;
+      width: 20px;
+      background-color: rgb(255, 90, 123);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: bold;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .top-img {
+      position: relative;
+      background-image: url("images/your-image.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-left: 5%;
+      color: #2b2b2b;
+      overflow: hidden;
+    }
+
+    .content {
+      max-width: 600px;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards;
+      z-index: 10;
+      position: relative;
+    }
+
+    .content .lifestyle {
+      text-transform: uppercase;
+      color: #444;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .content .men {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .content .sale {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .content .sale span {
+      color: red;
+    }
+
+    .content .shipping {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 1.2rem;
+    }
+
+    .shop-now-btn {
+      border: 1px solid black;
+      padding: 0.8rem 2rem;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 1rem;
+      color: black;
+      background-color: transparent;
+      transition: all 0.3s ease;
+    }
+
+    .shop-now-btn:hover {
+      background-color: black;
+      color: white;
+    }
+
+    .person-img {
+      width: 800px;
+      height: auto;
+      position: absolute;
+      bottom: 0;
+      right: 5%;
+      z-index: 5;
+      opacity: 0;
+      transform: translateX(100px);
+      animation: fadeInRight 1.5s ease forwards;
+      animation-delay: 1s;
+      pointer-events: none;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .logo {
+        display: none;
+      }
+
+      .actions {
+        flex-direction: row;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .btn {
+        max-width: none;
+      }
+
+      .top-img {
+        padding: 8rem 1rem 2rem;
+      }
+
+      .person-img {
+        width: 300px;
+        right: 0;
+        bottom: 0;
+      }
+
+      .content {
+        text-align: center;
+      }
+    }
+
+    .cart-count {
+      display: inline-block;
+      min-width: 20px;
+      padding: 0 5px;
+      background-color: #ff69b4;
+      color: white;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      text-align: center;
+      margin-left: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .cart-btn .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: #ff69b4;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-img">
+    <header>
+      <div class="logo">
+        <i class="fa-solid fa-bag-shopping"></i>
+        YONOP
+      </div>
+      <div class="actions">
+        <button class="btn cart-btn">
+          <i class="fa-solid fa-cart-shopping"></i>
+          Cart
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+        <button class="btn sign-in">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          Sign in
+        </button>
+        <button class="btn register">
+          <i class="fa-solid fa-person-circle-plus"></i>
+          Register
+        </button>
+      </div>
+    </header>
+
+    <section class="content">
+      <div class="lifestyle">Lifestyle Collection</div>
+      <div class="men">MEN</div>
+      <div class="sale">SALE UP TO <span>30% OFF</span></div>
+      <div class="shipping">Get Free Shipping on orders over MAD 99.00</div>
+      <a href="pages/product-details.html" class="shop-now-btn">Shop Now</a>
+    </section>
+
+    <img src="assets/persen.png" alt="persen" class="person-img" />
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const cartCount = document.getElementById('cartCount');
+    
+    function updateCartDisplay() {
+        const count = parseInt(localStorage.getItem('headerCartCount')) || 0;
+        cartCount.textContent = count;
+    }
+    
+    // تحديث العرض عند تحميل الصفحة
+    updateCartDisplay();
+    
+    // تحديث العرض عند تغيير localStorage
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'headerCartCount') {
+            updateCartDisplay();
+        }
+    });
+    
+    // تحديث كل ثانية للتأكد من التزامن
+    setInterval(updateCartDisplay, 1000);
+
+    // إضافة مستمع للنقر على زر السلة
+    const cartBtn = document.querySelector('.cart-btn');
+    cartBtn.addEventListener('click', function() {
+      updateCartDisplay();
+    });
+  });
+  </script>
+</body>
+</html> 
